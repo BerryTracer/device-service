@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package service;
+
+option go_package = "github.com/BerryTracer/device-service/gen;gen";
+
+// Represents a Device
+message Device {
+    string id = 1;  // Use "_id" for BSON in Go, but just "id" in proto
+    string user_id = 2;
+    string device_type = 3;
+    string name = 4;
+    string status = 5;
+    int64 registration_date = 6;  // Unix timestamp (seconds since epoch)
+    int32 battery_level = 7;
+}
+
+// The device service definition
+service DeviceService {
+    // Create a new device
+    rpc CreateDevice (CreateDeviceRequest) returns (DeviceResponse);
+
+    // Get a device by its ID
+    rpc GetDeviceById (DeviceRequest) returns (Device);
+
+    // Get devices by a user ID
+    rpc GetDevicesByUserId (DeviceRequest) returns (DeviceList);
+}
+
+// Request format for creating a device
+message CreateDeviceRequest {
+    Device device = 1;
+}
+
+// Request format for a single device
+message DeviceRequest {
+    string id = 1;
+}
+
+// Response format for device creation and other actions
+message DeviceResponse {
+    string id = 1;
+    bool success = 2;
+}
+
+// Response format for a list of devices
+message DeviceList {
+    repeated Device devices = 1;
+}
