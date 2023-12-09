@@ -102,6 +102,25 @@ func (s *DeviceGrpcServer) GetDeviceById(ctx context.Context, req *gen.DeviceReq
 	}, nil
 }
 
+func (s *DeviceGrpcServer) GetDeviceBySerialNumber(ctx context.Context, req *gen.DeviceRequest) (*gen.Device, error) {
+	device, err := s.DeviceService.GetDeviceBySerialNumber(ctx, req.Id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &gen.Device{
+		Id:               device.ID,
+		UserId:           device.UserID,
+		SerialNumber:     device.SerialNumber,
+		Name:             device.Name,
+		Status:           device.Status,
+		DeviceType:       device.DeviceType,
+		RegistrationDate: device.RegistrationDate,
+		BatteryLevel:     int32(device.BatteryLevel),
+	}, nil
+}
+
 func (s *DeviceGrpcServer) GetDevicesByUserId(ctx context.Context, req *gen.DeviceRequest) (*gen.DeviceList, error) {
 	devices, err := s.DeviceService.GetDevicesByUserId(ctx, req.Id)
 

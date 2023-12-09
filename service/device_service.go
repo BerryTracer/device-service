@@ -10,6 +10,7 @@ import (
 type DeviceService interface {
 	CreateDevice(ctx context.Context, device *model.Device) error
 	GetDeviceById(ctx context.Context, id string) (*model.Device, error)
+	GetDeviceBySerialNumber(ctx context.Context, serialNumber string) (*model.Device, error)
 	GetDevicesByUserId(ctx context.Context, userId string) ([]*model.Device, error)
 }
 
@@ -36,3 +37,11 @@ func (s *DeviceServiceImpl) GetDeviceById(ctx context.Context, id string) (*mode
 func (s *DeviceServiceImpl) GetDevicesByUserId(ctx context.Context, userId string) ([]*model.Device, error) {
 	return s.DeviceRepository.GetDevicesByUserId(ctx, userId)
 }
+
+// GetDeviceBySerialNumber implements DeviceService.
+func (s *DeviceServiceImpl) GetDeviceBySerialNumber(ctx context.Context, serialNumber string) (*model.Device, error) {
+	return s.DeviceRepository.GetDeviceBySerialNumber(ctx, serialNumber)
+}
+
+// Ensure DeviceServiceImpl implements DeviceService interface
+var _ DeviceService = &DeviceServiceImpl{}

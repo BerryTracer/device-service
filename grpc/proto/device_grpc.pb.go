@@ -26,6 +26,8 @@ type DeviceServiceClient interface {
 	CreateDevice(ctx context.Context, in *CreateDeviceRequest, opts ...grpc.CallOption) (*DeviceResponse, error)
 	// Get a device by its ID
 	GetDeviceById(ctx context.Context, in *DeviceRequest, opts ...grpc.CallOption) (*Device, error)
+	// Get a device by its serial number
+	GetDeviceBySerialNumber(ctx context.Context, in *DeviceRequest, opts ...grpc.CallOption) (*Device, error)
 	// Get devices by a user ID
 	GetDevicesByUserId(ctx context.Context, in *DeviceRequest, opts ...grpc.CallOption) (*DeviceList, error)
 }
@@ -56,6 +58,15 @@ func (c *deviceServiceClient) GetDeviceById(ctx context.Context, in *DeviceReque
 	return out, nil
 }
 
+func (c *deviceServiceClient) GetDeviceBySerialNumber(ctx context.Context, in *DeviceRequest, opts ...grpc.CallOption) (*Device, error) {
+	out := new(Device)
+	err := c.cc.Invoke(ctx, "/service.DeviceService/GetDeviceBySerialNumber", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *deviceServiceClient) GetDevicesByUserId(ctx context.Context, in *DeviceRequest, opts ...grpc.CallOption) (*DeviceList, error) {
 	out := new(DeviceList)
 	err := c.cc.Invoke(ctx, "/service.DeviceService/GetDevicesByUserId", in, out, opts...)
@@ -73,6 +84,8 @@ type DeviceServiceServer interface {
 	CreateDevice(context.Context, *CreateDeviceRequest) (*DeviceResponse, error)
 	// Get a device by its ID
 	GetDeviceById(context.Context, *DeviceRequest) (*Device, error)
+	// Get a device by its serial number
+	GetDeviceBySerialNumber(context.Context, *DeviceRequest) (*Device, error)
 	// Get devices by a user ID
 	GetDevicesByUserId(context.Context, *DeviceRequest) (*DeviceList, error)
 	mustEmbedUnimplementedDeviceServiceServer()
@@ -87,6 +100,9 @@ func (UnimplementedDeviceServiceServer) CreateDevice(context.Context, *CreateDev
 }
 func (UnimplementedDeviceServiceServer) GetDeviceById(context.Context, *DeviceRequest) (*Device, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetDeviceById not implemented")
+}
+func (UnimplementedDeviceServiceServer) GetDeviceBySerialNumber(context.Context, *DeviceRequest) (*Device, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDeviceBySerialNumber not implemented")
 }
 func (UnimplementedDeviceServiceServer) GetDevicesByUserId(context.Context, *DeviceRequest) (*DeviceList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetDevicesByUserId not implemented")
@@ -140,6 +156,24 @@ func _DeviceService_GetDeviceById_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DeviceService_GetDeviceBySerialNumber_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeviceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DeviceServiceServer).GetDeviceBySerialNumber(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.DeviceService/GetDeviceBySerialNumber",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DeviceServiceServer).GetDeviceBySerialNumber(ctx, req.(*DeviceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _DeviceService_GetDevicesByUserId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeviceRequest)
 	if err := dec(in); err != nil {
@@ -172,6 +206,10 @@ var DeviceService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetDeviceById",
 			Handler:    _DeviceService_GetDeviceById_Handler,
+		},
+		{
+			MethodName: "GetDeviceBySerialNumber",
+			Handler:    _DeviceService_GetDeviceBySerialNumber_Handler,
 		},
 		{
 			MethodName: "GetDevicesByUserId",

@@ -24,6 +24,9 @@ service DeviceService {
     // Get a device by its ID
     rpc GetDeviceById (DeviceRequest) returns (Device);
 
+    // Get a device by its serial number
+    rpc GetDeviceBySerialNumber (DeviceRequest) returns (Device);
+
     // Get devices by a user ID
     rpc GetDevicesByUserId (DeviceRequest) returns (DeviceList);
 }

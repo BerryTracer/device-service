@@ -11,6 +11,7 @@ import (
 type DeviceRepository interface {
 	CreateDevice(ctx context.Context, device *model.Device) error
 	GetDeviceById(ctx context.Context, id string) (*model.Device, error)
+	GetDeviceBySerialNumber(ctx context.Context, serialNumber string) (*model.Device, error)
 	GetDevicesByUserId(ctx context.Context, userId string) ([]*model.Device, error)
 }
 
@@ -69,3 +70,17 @@ func (r *DeviceMongoRepository) GetDevicesByUserId(ctx context.Context, userId s
 
 	return devices, nil
 }
+
+// GetDeviceBySerialNumber implements DeviceRepository.
+func (r *DeviceMongoRepository) GetDeviceBySerialNumber(ctx context.Context, serialNumber string) (*model.Device, error) {
+	var deviceDB model.DeviceDB
+	err := r.Collection.FindOne(ctx, primitive.M{"serial_number": serialNumber}).Decode(&deviceDB)
+	if err != nil {
+		return nil, err
+	}
+
+	return deviceDB.ToDevice(), nil
+}
+
+// Ensure DeviceMongoRepository implements DeviceRepository interface
+var _ DeviceRepository = &DeviceMongoRepository{}
