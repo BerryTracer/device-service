@@ -11,8 +11,9 @@ message Device {
     string device_type = 3;
     string name = 4;
     string status = 5;
-    int64 registration_date = 6;  // Unix timestamp (seconds since epoch)
-    int32 battery_level = 7;
+    string serial_number = 6;
+    int64 registration_date = 7;  // Unix timestamp (seconds since epoch)
+    int32 battery_level = 8;
 }
 
 // The device service definition
