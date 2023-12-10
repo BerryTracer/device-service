@@ -19,8 +19,13 @@ import (
 
 func main() {
 	// --- gRPC Client Setup ---
+	authAuthServiceURI, err := config.LoadEnv("AUTH_SERVICE_URI")
+	if err != nil {
+		log.Fatalf("failed to load environment variable: %v", err)
+	}
+
 	// Establish a connection to the gRPC server
-	conn, err := grpc.Dial("localhost:50052", grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
+	conn, err := grpc.Dial(authAuthServiceURI, grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
