@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	mock "github.com/BerryTracer/common-service/adapter/mock"
+	mock "github.com/BerryTracer/common-service/adapter/database/mongodb/mock"
 	"github.com/BerryTracer/device-service/model"
 	"github.com/BerryTracer/device-service/repository"
 	"github.com/golang/mock/gomock"

@@ -6,7 +6,6 @@ import (
 	"time"
 
 	auth_service "github.com/BerryTracer/auth-service/grpc/proto"
-	"github.com/BerryTracer/common-service/adapter"
 	"github.com/BerryTracer/common-service/adapter/database/mongodb"
 	"github.com/BerryTracer/common-service/config"
 	"github.com/BerryTracer/device-service/grpc/server"
@@ -65,7 +64,7 @@ func main() {
 
 	// --- Repository and Service Initialization ---
 	// Initialize the MongoDB adapter for the device repository
-	mongoDBAdapter := adapter.NewMongoAdapter(mongoDB.GetCollection())
+	mongoDBAdapter := mongodb.NewMongoAdapter(mongoDB.GetCollection())
 
 	// Set up the device repository with the MongoDB adapter
 	deviceRepository := repository.NewDeviceMongoRepository(mongoDBAdapter)

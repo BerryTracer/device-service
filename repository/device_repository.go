@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"github.com/BerryTracer/common-service/adapter"
+	"github.com/BerryTracer/common-service/adapter/database/mongodb"
 	"github.com/BerryTracer/device-service/model"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -16,11 +16,11 @@ type DeviceRepository interface {
 }
 
 type DeviceMongoRepository struct {
-	Collection adapter.MongoAdapter
+	Collection mongodb.MongoAdapter
 }
 
 // NewDeviceMongoRepository returns a new DeviceMongoRepository.
-func NewDeviceMongoRepository(collection adapter.MongoAdapter) *DeviceMongoRepository {
+func NewDeviceMongoRepository(collection mongodb.MongoAdapter) *DeviceMongoRepository {
 	return &DeviceMongoRepository{Collection: collection}
 }
 
