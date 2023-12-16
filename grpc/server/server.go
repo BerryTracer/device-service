@@ -6,7 +6,7 @@ import (
 	"log"
 	"net"
 
-	auth_service "github.com/BerryTracer/auth-service/grpc/proto"
+	authservice "github.com/BerryTracer/auth-service/grpc/proto"
 	gen "github.com/BerryTracer/device-service/grpc/proto"
 	"github.com/BerryTracer/device-service/model"
 	"github.com/BerryTracer/device-service/service"
@@ -16,11 +16,11 @@ import (
 
 type DeviceGrpcServer struct {
 	DeviceService service.DeviceService
-	AuthService   auth_service.AuthServiceClient
+	AuthService   authservice.AuthServiceClient
 	gen.UnimplementedDeviceServiceServer
 }
 
-func NewDeviceGrpcServer(deviceService service.DeviceService, authService auth_service.AuthServiceClient) *DeviceGrpcServer {
+func NewDeviceGrpcServer(deviceService service.DeviceService, authService authservice.AuthServiceClient) *DeviceGrpcServer {
 	return &DeviceGrpcServer{
 		DeviceService: deviceService,
 		AuthService:   authService,
@@ -52,7 +52,7 @@ func (s *DeviceGrpcServer) CreateDevice(ctx context.Context, req *gen.CreateDevi
 	}
 
 	token := md["authorization"][0]
-	tokenResults, err := s.AuthService.VerifyToken(ctx, &auth_service.VerifyTokenRequest{
+	tokenResults, err := s.AuthService.VerifyToken(ctx, &authservice.VerifyTokenRequest{
 		Token: token,
 	})
 
@@ -75,7 +75,10 @@ func (s *DeviceGrpcServer) CreateDevice(ctx context.Context, req *gen.CreateDevi
 		BatteryLevel:     int(req.Device.BatteryLevel),
 	}
 
-	s.DeviceService.CreateDevice(ctx, device)
+	err = s.DeviceService.CreateDevice(ctx, device)
+	if err != nil {
+		return nil, err
+	}
 
 	return &gen.DeviceResponse{
 		Id:      device.ID,
