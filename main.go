@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	auth_service "github.com/BerryTracer/auth-service/grpc/proto"
+	authservice "github.com/BerryTracer/auth-service/grpc/proto"
 	"github.com/BerryTracer/common-service/adapter/database/mongodb"
 	"github.com/BerryTracer/common-service/config"
 	"github.com/BerryTracer/device-service/grpc/server"
@@ -28,10 +28,15 @@ func main() {
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
-	defer conn.Close()
+	defer func(conn *grpc.ClientConn) {
+		err := conn.Close()
+		if err != nil {
+			log.Fatalf("failed to create indexes: %v", err)
+		}
+	}(conn)
 
 	// Create a client for the AuthService
-	authServiceClient := auth_service.NewAuthServiceClient(conn)
+	authServiceClient := authservice.NewAuthServiceClient(conn)
 
 	// --- MongoDB Setup ---
 	// Set a timeout for the MongoDB connection context
@@ -49,7 +54,12 @@ func main() {
 	if err := mongoDB.Connect(ctx); err != nil {
 		log.Fatalf("failed to connect to mongodb: %v", err)
 	}
-	defer mongoDB.Disconnect(ctx)
+	defer func(mongoDB *mongodb.MongoDatabase, ctx context.Context) {
+		err := mongoDB.Disconnect(ctx)
+		if err != nil {
+			log.Fatalf("failed to create indexes: %v", err)
+		}
+	}(mongoDB, ctx)
 
 	// Create MongoDB indexes
 	indexSpecs := []mongodb.IndexSpec{
@@ -74,5 +84,8 @@ func main() {
 
 	// --- gRPC Server Initialization ---
 	// Start the Device gRPC server
-	server.NewDeviceGrpcServer(deviceService, authServiceClient).Run(":50053")
+	err = server.NewDeviceGrpcServer(deviceService, authServiceClient).Run(":50053")
+	if err != nil {
+		log.Fatalf("failed to create indexes: %v", err)
+	}
 }

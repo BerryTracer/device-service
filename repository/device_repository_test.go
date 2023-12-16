@@ -208,7 +208,7 @@ func TestDeviceMongoRepository_GetDeviceById_Error(t *testing.T) {
 	_, err := repo.GetDeviceById(ctx, testID)
 
 	// Check if the error is not nil and is the expected error.
-	if err != mongo.ErrNoDocuments {
+	if !errors.Is(err, mongo.ErrNoDocuments) {
 		t.Errorf("expected mongo.ErrNoDocuments, got %v", err)
 	}
 }
@@ -382,7 +382,7 @@ func TestDeviceMongoRepository_GetDeviceBySerialNumber_Error(t *testing.T) {
 	_, err := repo.GetDeviceBySerialNumber(ctx, serialNumber)
 
 	// Check for error.
-	if err != mongo.ErrNoDocuments {
+	if !errors.Is(err, mongo.ErrNoDocuments) {
 		t.Errorf("expected mongo.ErrNoDocuments, got %v", err)
 	}
 }

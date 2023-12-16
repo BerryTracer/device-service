@@ -46,10 +46,10 @@ func TestDeviceService_CreateDevice(t *testing.T) {
 	repository := new(DeviceRepositoryMock)
 	repository.On("CreateDevice", mock.Anything, device).Return(nil)
 
-	service := service.NewDeviceService(repository)
+	deviceService := service.NewDeviceService(repository)
 
 	// Act
-	err := service.CreateDevice(context.Background(), device)
+	err := deviceService.CreateDevice(context.Background(), device)
 
 	// Assert
 	if err != nil {
@@ -68,10 +68,10 @@ func TestDeviceService_GetDeviceById(t *testing.T) {
 	repository := new(DeviceRepositoryMock)
 	repository.On("GetDeviceById", mock.Anything, device.ID).Return(device, nil)
 
-	service := service.NewDeviceService(repository)
+	deviceService := service.NewDeviceService(repository)
 
 	// Act
-	result, err := service.GetDeviceById(context.Background(), device.ID)
+	result, err := deviceService.GetDeviceById(context.Background(), device.ID)
 
 	// Assert
 	if err != nil {
@@ -94,10 +94,10 @@ func TestDeviceService_GetDeviceBySerialNumber(t *testing.T) {
 	repository := new(DeviceRepositoryMock)
 	repository.On("GetDeviceBySerialNumber", mock.Anything, device.SerialNumber).Return(device, nil)
 
-	service := service.NewDeviceService(repository)
+	deviceService := service.NewDeviceService(repository)
 
 	// Act
-	result, err := service.GetDeviceBySerialNumber(context.Background(), device.SerialNumber)
+	result, err := deviceService.GetDeviceBySerialNumber(context.Background(), device.SerialNumber)
 
 	// Assert
 	if err != nil {
@@ -120,10 +120,10 @@ func TestDeviceService_GetDevicesByUserId(t *testing.T) {
 	repository := new(DeviceRepositoryMock)
 	repository.On("GetDevicesByUserId", mock.Anything, device.UserID).Return([]*model.Device{device}, nil)
 
-	service := service.NewDeviceService(repository)
+	deviceService := service.NewDeviceService(repository)
 
 	// Act
-	result, err := service.GetDevicesByUserId(context.Background(), device.UserID)
+	result, err := deviceService.GetDevicesByUserId(context.Background(), device.UserID)
 
 	// Assert
 	if err != nil {
