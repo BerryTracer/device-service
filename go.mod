@@ -4,7 +4,7 @@ go 1.21.3
 
 require (
 	github.com/BerryTracer/auth-service v0.0.0-20231212021246-12ca4378b15d
-	github.com/BerryTracer/common-service v1.1.7
+	github.com/BerryTracer/common-service v1.1.8
 	github.com/golang/mock v1.6.0
 	github.com/stretchr/testify v1.8.4
 	go.mongodb.org/mongo-driver v1.13.1
