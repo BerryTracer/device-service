@@ -17,8 +17,10 @@ import (
 )
 
 func main() {
+	envLoader := config.NewRealEnvLoader()
+
 	// --- gRPC Client Setup ---
-	authAuthServiceURI, err := config.LoadEnv("AUTH_SERVICE_URI")
+	authAuthServiceURI, err := config.LoadEnv(envLoader, "AUTH_SERVICE_URI")
 	if err != nil {
 		log.Fatalf("failed to load environment variable: %v", err)
 	}
@@ -44,7 +46,7 @@ func main() {
 	defer cancel()
 
 	// Load MongoDB URI from environment variables
-	mongodbURI, err := config.LoadEnv("MONGODB_URI")
+	mongodbURI, err := config.LoadEnv(envLoader, "MONGODB_URI")
 	if err != nil {
 		panic(err)
 	}
