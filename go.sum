@@ -1,7 +1,7 @@
 github.com/BerryTracer/auth-service v0.0.0-20231212021246-12ca4378b15d h1:3DAzEdwdTpNjqZTtwtFrJbGwaQ7okbEeeIzJgr3FZus=
 github.com/BerryTracer/auth-service v0.0.0-20231212021246-12ca4378b15d/go.mod h1:MfEbu4dAicTrqmgdl8XyH5Tq4LOOPj41hlyxkRH4KWY=
-github.com/BerryTracer/common-service v1.1.7 h1:/gqdGhZ39G2Z3ouai4mhQ8kdA2bDEU18/ceeBL7ykcU=
-github.com/BerryTracer/common-service v1.1.7/go.mod h1:T4UJNEQ1WsqC1HgSec3o8HqSAM6zAQ9g72A6HdouhpA=
+github.com/BerryTracer/common-service v1.1.8 h1:NrTWYKYgiI5u1ZA0KE8beOjtuRN48pgux7RmhD4Ptfc=
+github.com/BerryTracer/common-service v1.1.8/go.mod h1:vfudxViqP+y1BPf7NoDYASm/3s9g+rHOkjre8QgPKrg=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
